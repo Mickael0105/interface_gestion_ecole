@@ -1,0 +1,735 @@
+<Window x:Class="MyApp.Interface.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:MyApp.Interface.Converters"
+        Title="Apli Micka — Accueil" Height="800" Width="1280" WindowStartupLocation="CenterScreen" 
+        Background="{DynamicResource PageBackground}" ResizeMode="CanResize">
+    <Window.Resources>
+        <conv:ClassNameConverter x:Key="ClassNameConverter"/>
+        <conv:StudentNameConverter x:Key="StudentNameConverter"/>
+        <conv:SubjectNameConverter x:Key="SubjectNameConverter"/>
+
+        <!-- Sidebar Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextLightBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F1F5F9"/>
+                                <Setter Property="Foreground" Value="#6366F1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Background Image -->
+        <Grid.Background>
+            <ImageBrush ImageSource="/pngtree-abstract-background-technology-of-data-applications-image_555017.jpg" 
+                        Stretch="UniformToFill" Opacity="0.15"/>
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/> <!-- Sidebar -->
+            <ColumnDefinition Width="*"/>    <!-- Content -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar Navigation -->
+        <Border Grid.Column="0" Background="{DynamicResource PageBackground}" Width="80" BorderBrush="#E2E8F0" BorderThickness="0,0,1,0">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="4" Color="#20000000" Opacity="0.1"/>
+            </Border.Effect>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Logo -->
+                    <RowDefinition Height="*"/>    <!-- Nav Items -->
+                    <RowDefinition Height="Auto"/> <!-- Bottom Items -->
+                </Grid.RowDefinitions>
+
+                <!-- Top Logo -->
+                <Border Grid.Row="0" Margin="0,24,0,32" HorizontalAlignment="Center">
+                    <Border Width="48" Height="48" CornerRadius="24" Background="{StaticResource VibrantGradient}">
+                        <Ellipse Width="44" Height="44">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="/pngtree-logo-design-for-school-and-science-education-png-image_8968150.png"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Border>
+                </Border>
+
+                <!-- Navigation Items -->
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- Dashboard -->
+                    <Button x:Name="BtnNavDashboard" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavDashboard_Click" ToolTip="Tableau de bord" Foreground="#3B82F6">
+                        <TextBlock Text="🏠"/>
+                    </Button>
+                    
+                    <!-- Students -->
+                    <Button x:Name="BtnNavStudents" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavStudents_Click" ToolTip="Étudiants" Foreground="#10B981">
+                        <TextBlock Text="👨‍🎓"/>
+                    </Button>
+
+                    <!-- Teachers -->
+                    <Button x:Name="BtnNavTeachers" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavTeachers_Click" ToolTip="Enseignants" Foreground="#F59E0B">
+                        <TextBlock Text="👨‍🏫"/>
+                    </Button>
+
+                    <!-- Classes -->
+                    <Button x:Name="BtnNavClasses" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavClasses_Click" ToolTip="Classes" Foreground="#8B5CF6">
+                        <TextBlock Text="🏫"/>
+                    </Button>
+
+                    <!-- Grades -->
+                    <Button x:Name="BtnNavGrades" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavGrades_Click" ToolTip="Notes" Foreground="#EC4899">
+                        <TextBlock Text="📊"/>
+                    </Button>
+
+                    <!-- Reports -->
+                    <Button x:Name="BtnNavReports" Style="{StaticResource SidebarButtonStyle}" Click="BtnNavReports_Click" ToolTip="Rapports" Foreground="#14B8A6">
+                        <TextBlock Text="📁"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Bottom Items -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,24" HorizontalAlignment="Center">
+                    <!-- About -->
+                    <Button Style="{StaticResource SidebarButtonStyle}" Click="BtnNavAbout_Click" ToolTip="À Propos" Foreground="#6366F1">
+                        <TextBlock Text="ℹ️"/>
+                    </Button>
+                    
+                    <!-- Theme Toggle -->
+                    <Button Style="{StaticResource SidebarButtonStyle}" Click="BtnThemeToggle_Click" ToolTip="Thème" Foreground="#FACC15">
+                        <TextBlock Text="🌙"/>
+                    </Button>
+
+                    <!-- Logout -->
+                    <Button Style="{StaticResource SidebarButtonStyle}" Click="BtnLogout_Click" ToolTip="Déconnexion" Foreground="#EF4444">
+                        <TextBlock Text="🚪"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1" Margin="24">
+            <!-- Header Text (Optional / Breadcrumb) -->
+            <StackPanel VerticalAlignment="Top" Margin="0,0,0,20">
+                <TextBlock x:Name="lblWelcome" Text="Bienvenue" FontSize="16" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBlock x:Name="lblPageTitle" Text="Tableau de bord" FontSize="24" FontWeight="Bold" Foreground="#1E293B"/>
+                <TextBlock Text="Aperçu des activités" FontSize="14" Foreground="#64748B" x:Name="lblPageSubtitle"/>
+            </StackPanel>
+
+            <!-- Content Tabs -->
+            <TabControl x:Name="MainTabControl" Background="Transparent" BorderThickness="0" Margin="0,60,0,0">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Visibility" Value="Collapsed"/> <!-- Hide Headers -->
+                    </Style>
+                </TabControl.ItemContainerStyle>
+
+                <!-- Tableau de bord -->
+                <TabItem Header="Tableau de bord" x:Name="TabDashboard">
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Stats Cards -->
+                        <UniformGrid Columns="3" Grid.Row="0" Margin="0,0,0,24">
+                            <!-- Card 1 -->
+                            <Border Style="{StaticResource CardBorder}" Margin="0,0,16,0">
+                                <StackPanel>
+                                    <TextBlock Text="Total Étudiants" Foreground="{StaticResource TextLightBrush}" FontSize="14" FontWeight="Medium"/>
+                                    <TextBlock x:Name="lblTotalStudents" Text="0" Foreground="{StaticResource TextDarkBrush}" FontSize="36" FontWeight="Bold" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <!-- Card 2 -->
+                            <Border Style="{StaticResource CardBorder}" Margin="0,0,16,0">
+                                <StackPanel>
+                                    <TextBlock Text="Total Enseignants" Foreground="{StaticResource TextLightBrush}" FontSize="14" FontWeight="Medium"/>
+                                    <TextBlock x:Name="lblTotalTeachers" Text="0" Foreground="{StaticResource TextDarkBrush}" FontSize="36" FontWeight="Bold" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <!-- Card 3 -->
+                            <Border Style="{StaticResource CardBorder}">
+                                <StackPanel>
+                                    <TextBlock Text="Total Classes" Foreground="{StaticResource TextLightBrush}" FontSize="14" FontWeight="Medium"/>
+                                    <TextBlock x:Name="lblTotalClasses" Text="0" Foreground="{StaticResource TextDarkBrush}" FontSize="36" FontWeight="Bold" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+
+                        <!-- Recent Activity -->
+                        <Border Grid.Row="1" Style="{StaticResource CardBorder}">
+                            <DockPanel>
+                                <TextBlock Text="Activités Récentes" DockPanel.Dock="Top" Style="{StaticResource InputLabel}" FontSize="16" Margin="0,0,0,16"/>
+                                <DataGrid x:Name="dgRecentGrades" AutoGenerateColumns="False" IsReadOnly="True" BorderThickness="0" Background="White" RowHeaderWidth="0" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#F1F5F9">
+                                    <DataGrid.ColumnHeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="White"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="Foreground" Value="{StaticResource TextLightBrush}"/>
+                                            <Setter Property="Padding" Value="12,12"/>
+                                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                                        </Style>
+                                    </DataGrid.ColumnHeaderStyle>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Padding" Value="0,8"/>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Étudiant" Binding="{Binding StudentName}" Width="*"/>
+                                        <DataGridTextColumn Header="Matière" Binding="{Binding SubjectName}" Width="*"/>
+                                        <DataGridTextColumn Header="Note" Binding="{Binding Value}" Width="80"/>
+                                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="100"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- Etudiants -->
+                <TabItem Header="Étudiants" x:Name="TabStudents">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="350"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Liste -->
+                        <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="0,0,16,16">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                                    <TextBlock Text="Rechercher" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtSearchStudent" Style="{StaticResource ModernTextBox}" TextChanged="TxtSearchStudent_TextChanged"/>
+                                </StackPanel>
+                                <DataGrid x:Name="dgStudents" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgStudents_SelectionChanged" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Photo" Width="60">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding PhotoPath}" Width="40" Height="40" Stretch="UniformToFill"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Matricule" Binding="{Binding Matricule}" Width="80"/>
+                                        <DataGridTextColumn Header="Nom" Binding="{Binding LastName}" Width="*"/>
+                                        <DataGridTextColumn Header="Prénom" Binding="{Binding FirstName}" Width="*"/>
+                                        <DataGridTextColumn Header="Classe" Binding="{Binding ClassId, Converter={StaticResource ClassNameConverter}}" Width="80"/>
+                                        <DataGridTextColumn Header="Parents" Binding="{Binding ParentsNames}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </Border>
+
+                        <!-- Form -->
+                        <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="0,0,0,16">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <TextBlock Text="Fiche Étudiant" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Width="80" Height="80" CornerRadius="40" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,12,0">
+                                            <Image x:Name="imgStudentPreview" Stretch="UniformToFill">
+                                                <Image.Clip>
+                                                    <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40"/>
+                                                </Image.Clip>
+                                            </Image>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <Button Content="Choisir Photo..." Click="BtnBrowseStudentPhoto_Click" Style="{StaticResource ModernLightButton}"/>
+                                            <TextBlock x:Name="txtStudentPhotoPath" Visibility="Collapsed"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <TextBlock Text="Nom" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtStudentLastName" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <TextBlock Text="Prénom" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtStudentFirstName" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <TextBlock Text="Date Naissance" Style="{StaticResource InputLabel}"/>
+                                    <DatePicker x:Name="dpStudentDob" Margin="0,0,0,12" Height="36" VerticalContentAlignment="Center"/>
+
+                                    <TextBlock Text="Classe" Style="{StaticResource InputLabel}"/>
+                                    <ComboBox x:Name="cbStudentClass" Margin="0,0,0,12" Height="36" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+                                    <TextBlock Text="Contact" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtStudentContact" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <TextBlock Text="Adresse" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtStudentAddress" Style="{StaticResource ModernTextBox}" Height="60" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                                    
+                                    <TextBlock Text="Noms des Parents" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtStudentParents" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="Nouveau" Click="BtnAddStudent_Click" Style="{StaticResource ModernButton}" Margin="0,0,8,0"/>
+                                        <Button Content="Modifier" Click="BtnUpdateStudent_Click" Style="{StaticResource ModernButton}" Background="#F59E0B" Margin="0,0,8,0"/>
+                                        <Button Content="Supprimer" Click="BtnDeleteStudent_Click" Style="{StaticResource ModernButton}" Background="#EF4444"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- Enseignants -->
+                <TabItem Header="Enseignants" x:Name="TabTeachers">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="350"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="0,0,16,16">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                                    <TextBlock Text="Rechercher" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtSearchTeacher" Style="{StaticResource ModernTextBox}" TextChanged="TxtSearchTeacher_TextChanged"/>
+                                </StackPanel>
+                                <DataGrid x:Name="dgTeachers" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgTeachers_SelectionChanged" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Photo" Width="60">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{Binding PhotoPath}" Width="40" Height="40" Stretch="UniformToFill"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="Matricule" Binding="{Binding Matricule}" Width="80"/>
+                                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*"/>
+                                        <DataGridTextColumn Header="Spécialité" Binding="{Binding Specialty}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </Border>
+
+                        <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="0,0,0,16">
+                            <StackPanel>
+                                <TextBlock Text="Fiche Enseignant" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="80" Height="80" CornerRadius="40" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,12,0">
+                                        <Image x:Name="imgTeacherPreview" Stretch="UniformToFill">
+                                            <Image.Clip>
+                                                <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40"/>
+                                            </Image.Clip>
+                                        </Image>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <Button Content="Choisir Photo..." Click="BtnBrowseTeacherPhoto_Click" Style="{StaticResource ModernLightButton}"/>
+                                        <TextBlock x:Name="txtTeacherPhotoPath" Visibility="Collapsed"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="Nom" Style="{StaticResource InputLabel}"/>
+                                <TextBox x:Name="txtTeacherName" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+                                <TextBlock Text="Spécialité" Style="{StaticResource InputLabel}"/>
+                                <TextBox x:Name="txtTeacherSpecialty" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+                                <TextBlock Text="Matières" Style="{StaticResource InputLabel}"/>
+                                <TextBox x:Name="txtTeacherSubjects" Style="{StaticResource ModernTextBox}" Height="60" TextWrapping="Wrap" Margin="0,0,0,16"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="Ajouter" Click="BtnAddTeacher_Click" Style="{StaticResource ModernButton}" Margin="0,0,8,0"/>
+                                    <Button Content="Modifier" Click="BtnUpdateTeacher_Click" Style="{StaticResource ModernButton}" Background="#F59E0B"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- Classes & Matières -->
+                <TabItem Header="Classes" x:Name="TabClasses">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Classes Management -->
+                        <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="0,0,16,16">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <TextBlock Text="Gestion des Classes" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                <DataGrid Grid.Row="1" x:Name="dgClasses" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgClasses_SelectionChanged" BorderThickness="0" Margin="0,0,0,16">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*"/>
+                                        <DataGridTextColumn Header="Matières" Binding="{Binding AssignedSubjects}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <StackPanel Grid.Row="2">
+                                    <TextBlock Text="Nom Classe" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtClassName" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+                                    
+                                    <TextBlock Text="Matières (txt)" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtClassSubjects" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Ajouter" Click="BtnAddClass_Click" Style="{StaticResource ModernButton}" Margin="0,0,8,0"/>
+                                        <Button Content="Modifier" Click="BtnUpdateClass_Click" Style="{StaticResource ModernButton}" Background="#F59E0B" Margin="0,0,8,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Subjects Management -->
+                        <Border Grid.Column="1" Style="{StaticResource CardBorder}" Margin="0,0,0,16">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="Gestion des Matières" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+
+                                <DataGrid Grid.Row="1" x:Name="dgSubjects" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgSubjects_SelectionChanged" BorderThickness="0" Margin="0,0,0,16">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <StackPanel Grid.Row="2">
+                                    <TextBlock Text="Nom Matière" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtSubjectName" Style="{StaticResource ModernTextBox}" Margin="0,0,0,12"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                                        <Button Content="Ajouter" Click="BtnAddSubject_Click" Style="{StaticResource ModernButton}" Margin="0,0,8,0"/>
+                                        <Button Content="Supprimer" Click="BtnDeleteSubject_Click" Style="{StaticResource ModernButton}" Background="#EF4444"/>
+                                    </StackPanel>
+
+                                    <Border Height="1" Background="#E2E8F0" Margin="0,0,0,16"/>
+
+                                    <TextBlock Text="Attribution (Sélection multiple)" FontSize="16" FontWeight="Bold" Margin="0,0,0,12"/>
+                                    
+                                    <TextBlock Text="Classe Cible" Style="{StaticResource InputLabel}"/>
+                                    <ComboBox x:Name="cbAssignClass" Margin="0,0,0,12" Height="36" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+                                    <TextBlock Text="Matières à attribuer" Style="{StaticResource InputLabel}"/>
+                                    <ListBox x:Name="lbAssignSubjects" SelectionMode="Extended" DisplayMemberPath="Name" Height="100" Margin="0,0,0,12" BorderThickness="1" BorderBrush="#E2E8F0"/>
+
+                                    <Button Content="Mettre à jour la classe" Click="BtnAssignSubjects_Click" Style="{StaticResource ModernButton}" Background="{StaticResource PrimaryDarkBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- Notes et Moyennes -->
+                <TabItem Header="Notes &amp; Bulletins" x:Name="TabGrades">
+                    <Grid>
+                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="350"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="0,0,16,16" x:Name="PanelGradeEntry">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <TextBlock Text="Saisie de Note" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+                                    
+                                    <TextBlock Text="Étudiant" Style="{StaticResource InputLabel}"/>
+                                    <ComboBox x:Name="cbGradeStudent" Margin="0,0,0,12" Height="36" DisplayMemberPath="FullName" SelectedValuePath="Id"/>
+
+                                    <TextBlock Text="Matière" Style="{StaticResource InputLabel}"/>
+                                    <ComboBox x:Name="cbGradeSubject" Margin="0,0,0,12" Height="36" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+                                    <TextBlock Text="Note (/20)" Style="{StaticResource InputLabel}"/>
+                                    <TextBox x:Name="txtGradeValue" Style="{StaticResource ModernTextBox}" Margin="0,0,0,16"/>
+
+                                    <Button Content="Ajouter Note" Click="BtnAddGrade_Click" Style="{StaticResource ModernButton}" Width="150" HorizontalAlignment="Left" Margin="0,0,0,24"/>
+                                    
+                                    <Border Height="1" Background="#E2E8F0" Margin="0,0,0,16"/>
+
+                                    <TextBlock Text="Moyennes" FontSize="18" FontWeight="Bold" Margin="0,0,0,12"/>
+                                    <DataGrid x:Name="dgAverages" AutoGenerateColumns="False" IsReadOnly="True" BorderThickness="0" Height="200" Margin="0,0,0,12">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Nom" Binding="{Binding StudentName}" Width="*"/>
+                                            <DataGridTextColumn Header="Moyenne" Binding="{Binding Average}" Width="60"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    
+                                    <Button Content="Générer Bulletin" Click="BtnGenerateBulletin_Click" Style="{StaticResource ModernButton}" Background="#8B5CF6"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+
+                        <Border Grid.Column="1" Style="{StaticResource CardBorder}">
+                             <DockPanel>
+                                 <TextBlock DockPanel.Dock="Top" Text="Liste des Notes" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+                                 <DataGrid x:Name="dgGrades" AutoGenerateColumns="False" IsReadOnly="True" BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Étudiant" Binding="{Binding StudentId, Converter={StaticResource StudentNameConverter}}" Width="*"/>
+                                        <DataGridTextColumn Header="Matière" Binding="{Binding SubjectId, Converter={StaticResource SubjectNameConverter}}" Width="*"/>
+                                        <DataGridTextColumn Header="Note" Binding="{Binding Value}" Width="80"/>
+                                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="100"/>
+                                    </DataGrid.Columns>
+                                 </DataGrid>
+                             </DockPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- Rapports -->
+                <TabItem Header="Rapports" x:Name="TabReports">
+                     <Border Style="{StaticResource CardBorder}">
+                        <StackPanel>
+                            <TextBlock Text="Centre d'exportation" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+                            <WrapPanel>
+                                <Button Content="Tout Exporter (CSV)" Click="BtnExportAll_Click" Style="{StaticResource ModernButton}" Margin="0,0,16,16"/>
+                                <Button Content="Imprimer (Simulé)" Click="BtnPrint_Click" Style="{StaticResource ModernButton}" Background="#64748B" Margin="0,0,16,16"/>
+                            </WrapPanel>
+                            
+                            <Border Height="1" Background="#E2E8F0" Margin="0,0,0,16"/>
+                            
+                            <WrapPanel>
+                                <Button Content="Export Étudiants" Click="BtnExportStudents_Click" Style="{StaticResource ModernButton}" Margin="0,0,16,16" Background="Transparent" Foreground="{StaticResource PrimaryBrush}" BorderThickness="1" BorderBrush="{StaticResource PrimaryBrush}"/>
+                                <Button Content="Export Notes" Click="BtnExportGrades_Click" Style="{StaticResource ModernButton}" Margin="0,0,16,16" Background="Transparent" Foreground="{StaticResource PrimaryBrush}" BorderThickness="1" BorderBrush="{StaticResource PrimaryBrush}"/>
+                            </WrapPanel>
+                        </StackPanel>
+                     </Border>
+                </TabItem>
+
+                <!-- À Propos (About) -->
+                <TabItem Header="À Propos" x:Name="TabAbout">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Header Section -->
+                            <Border Style="{StaticResource Card3D}" Margin="0,0,0,24">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#6366F1" Offset="0"/>
+                                        <GradientStop Color="#8B5CF6" Offset="0.5"/>
+                                        <GradientStop Color="#D946EF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Ellipse Width="80" Height="80" Margin="0,0,20,0">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="/pngtree-logo-design-for-school-and-science-education-png-image_8968150.png"/>
+                                        </Ellipse.Fill>
+                                        <Ellipse.Effect>
+                                            <DropShadowEffect BlurRadius="15" ShadowDepth="5" Color="#40000000"/>
+                                        </Ellipse.Effect>
+                                    </Ellipse>
+                                    
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="App Micka" FontSize="32" FontWeight="Black" Foreground="White" Margin="0,0,0,4"/>
+                                        <TextBlock Text="Système de Gestion Scolaire Moderne" FontSize="16" Foreground="White" Opacity="0.9" FontWeight="Medium"/>
+                                        <TextBlock Text="Version 2.0 - Édition Premium" FontSize="13" Foreground="White" Opacity="0.7" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Features Section -->
+                            <TextBlock Text="🚀 Fonctionnalités de l'Application" FontSize="24" FontWeight="Bold" 
+                                       Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,20"/>
+                            
+                            <UniformGrid Columns="2" Margin="0,0,0,24">
+                                <!-- Feature 1: Student Management -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="👨‍🎓" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Gestion des Étudiants" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Ajout, modification et suivi complet des étudiants avec informations détaillées et historique académique."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 2: Teacher Management -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="👨‍🏫" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Gestion des Enseignants" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Organisation des enseignants par spécialité et matières enseignées avec profils détaillés."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 3: Grade Tracking -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="📊" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Suivi des Notes" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Saisie et calcul automatique des notes, moyennes et génération de bulletins scolaires professionnels."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 4: Class Organization -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="🏫" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Organisation des Classes" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Création et gestion des classes avec attribution flexible des matières et des enseignants."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 5: Data Export -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="📁" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Export de Données" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Export CSV des données pour analyse externe et archivage avec options d'impression."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Feature 6: Dashboard Analytics -->
+                                <Border Style="{StaticResource FeatureCard}">
+                                    <StackPanel>
+                                        <TextBlock Text="📈" FontSize="36" Margin="0,0,0,12"/>
+                                        <TextBlock Text="Tableau de Bord" FontSize="18" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,8"/>
+                                        <TextBlock Text="Vue d'ensemble avec statistiques en temps réel et activités récentes pour un suivi optimal."
+                                                   TextWrapping="Wrap" Foreground="{StaticResource TextLightBrush}" FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+
+                            <!-- Developer Info Section -->
+                            <Border Style="{StaticResource Card3D}" Margin="0,8,0,24">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Developer Photo -->
+                                    <Border Width="120" Height="120" CornerRadius="60" Margin="0,0,24,0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#6366F1" Offset="0"/>
+                                                <GradientStop Color="#8B5CF6" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="20" ShadowDepth="6" Color="#406366F1" Opacity="0.4"/>
+                                        </Border.Effect>
+                                        
+                                        <Ellipse Width="110" Height="110">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="/A782ae65546224f008541802c2a06f1c63.png_300x300.jpg"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                    </Border>
+
+                                    <!-- Developer Details -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="💻 Développeur" FontSize="14" Foreground="{StaticResource TextLightBrush}" 
+                                                   FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                        <TextBlock Text="RAMANAJANATOVO Tsioriharivelo Mickael" FontSize="22" FontWeight="Bold" 
+                                                   Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,4" TextWrapping="Wrap"/>
+                                        <TextBlock Text="L3 Info Option GL" FontSize="16" Foreground="{StaticResource PrimaryBrush}" 
+                                                   FontWeight="SemiBold" Margin="0,0,0,16"/>
+                                        
+                                        <Border Height="1" Background="#E2E8F0" Margin="0,0,0,16"/>
+                                        
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <Border Background="#F1F5F9" CornerRadius="8" Padding="12,6" Margin="0,0,12,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="📞" Margin="0,0,8,0" FontSize="16"/>
+                                                    <TextBlock Text="032 43 900 61" Foreground="{StaticResource TextDarkBrush}" 
+                                                               FontWeight="SemiBold" FontSize="14"/>
+                                                </StackPanel>
+                                            </Border>
+                                            
+                                            <Border Background="#F1F5F9" CornerRadius="8" Padding="12,6">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="📞" Margin="0,0,8,0" FontSize="16"/>
+                                                    <TextBlock Text="033 13 668 10" Foreground="{StaticResource TextDarkBrush}" 
+                                                               FontWeight="SemiBold" FontSize="14"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                        
+                                        <TextBlock Text="Application développée avec passion en C# WPF" 
+                                                   FontSize="12" Foreground="{StaticResource TextLightBrush}" 
+                                                   FontStyle="Italic" Margin="0,8,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- Technology Stack -->
+                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,24">
+                                <StackPanel>
+                                    <TextBlock Text="⚙️ Technologies Utilisées" FontSize="20" FontWeight="Bold" 
+                                               Foreground="{StaticResource TextDarkBrush}" Margin="0,0,0,16"/>
+                                    <WrapPanel>
+                                        <Border Background="#6366F1" CornerRadius="20" Padding="16,8" Margin="0,0,8,8">
+                                            <TextBlock Text="C# .NET" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                        <Border Background="#8B5CF6" CornerRadius="20" Padding="16,8" Margin="0,0,8,8">
+                                            <TextBlock Text="WPF" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                        <Border Background="#D946EF" CornerRadius="20" Padding="16,8" Margin="0,0,8,8">
+                                            <TextBlock Text="XAML" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                        <Border Background="#2563EB" CornerRadius="20" Padding="16,8" Margin="0,0,8,8">
+                                            <TextBlock Text="Visual Studio" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                        <Border Background="#1E40AF" CornerRadius="20" Padding="16,8" Margin="0,0,8,8">
+                                            <TextBlock Text="Modern UI/UX" Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Footer -->
+                            <TextBlock Text="© 2026 App Micka - Tous droits réservés" 
+                                       HorizontalAlignment="Center" Foreground="{StaticResource TextLightBrush}" 
+                                       FontSize="12" Margin="0,0,0,24"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

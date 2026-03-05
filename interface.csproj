@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="491876520_1499584064736452_3232019163340726923_n.jpg" />
+    <None Remove="A782ae65546224f008541802c2a06f1c63.png_300x300.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <Resource Include="A782ae65546224f008541802c2a06f1c63.png_300x300.jpg" />
+    <Resource Include="pngtree-logo-design-for-school-and-science-education-png-image_8968150.png" />
+    <Resource Include="pngtree-abstract-background-technology-of-data-applications-image_555017.jpg" />
+    <Resource Include="stock-vector-academy-logo-letter-w-vector-modern-education-logo-design-2713539443.jpg" />
+  </ItemGroup>
+
+</Project>

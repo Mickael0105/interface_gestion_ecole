@@ -1,0 +1,162 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Palette (colors + brushes) -->
+  <Color x:Key="PrimaryColor">#FF6D28D9</Color>
+  <Color x:Key="AccentColor">#FF06B6D4</Color>
+  <Color x:Key="SurfaceColor">#FFFFFFFF</Color>
+  <Color x:Key="SoftBgColor">#FFF7FAFC</Color>
+  <Color x:Key="HeadingTextColor">#FFFFFFFF</Color>
+  <Color x:Key="MutedTextColor">#FF6B7280</Color>
+
+  <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+  <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+  <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+  <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource SoftBgColor}"/>
+  <SolidColorBrush x:Key="HeadingTextBrush" Color="{StaticResource HeadingTextColor}"/>
+  <SolidColorBrush x:Key="MutedTextBrush" Color="{StaticResource MutedTextColor}"/>
+
+  <!-- Effects -->
+  <DropShadowEffect x:Key="SoftShadow" BlurRadius="18" ShadowDepth="6" Color="#66000000"/>
+
+  <!-- Primary Button -->
+  <Style x:Key="PrimaryButton" TargetType="Button">
+    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Padding" Value="10,6"/>
+    <Setter Property="Height" Value="40"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="bd" CornerRadius="8" Background="{TemplateBinding Background}">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="bd" Property="Opacity" Value="0.95"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="bd" Property="Opacity" Value="0.9"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Accent Button -->
+  <Style x:Key="AccentButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+    <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+  </Style>
+
+  <!-- TextBox -->
+  <Style TargetType="TextBox">
+    <Setter Property="Padding" Value="8"/>
+    <Setter Property="BorderBrush" Value="#FFE6E9EE"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="Background" Value="White"/>
+    <Setter Property="Foreground" Value="#222"/>
+    <Setter Property="Height" Value="34"/>
+    <Setter Property="Margin" Value="0,6,0,6"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TextBox">
+          <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+            <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+              <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+              <Setter TargetName="bd" Property="Effect">
+                <Setter.Value>
+                  <DropShadowEffect BlurRadius="8" ShadowDepth="2" Color="#226D28D9"/>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- PasswordBox (reuse TextBox look) -->
+  <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+
+  <!-- ComboBox -->
+  <Style TargetType="ComboBox">
+    <Setter Property="Padding" Value="6"/>
+    <Setter Property="Height" Value="34"/>
+    <Setter Property="Margin" Value="0,6,0,6"/>
+  </Style>
+
+  <!-- DataGrid -->
+  <Style TargetType="DataGrid">
+    <Setter Property="RowBackground" Value="#FFFFFFFF"/>
+    <Setter Property="AlternatingRowBackground" Value="#FFF6F8FB"/>
+    <Setter Property="GridLinesVisibility" Value="None"/>
+    <Setter Property="HeadersVisibility" Value="Column"/>
+    <Setter Property="HorizontalGridLinesBrush" Value="#FFECEFF3"/>
+    <Setter Property="VerticalGridLinesBrush" Value="#FFECEFF3"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CellStyle">
+      <Setter.Value>
+        <Style TargetType="DataGridCell">
+          <Setter Property="Padding" Value="8,6"/>
+        </Style>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ColumnHeaderStyle">
+      <Setter.Value>
+        <Style TargetType="DataGridColumnHeader">
+          <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+          <Setter Property="Foreground" Value="White"/>
+          <Setter Property="FontWeight" Value="SemiBold"/>
+          <Setter Property="Height" Value="36"/>
+        </Style>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- TabItem -->
+  <Style TargetType="TabItem">
+    <Setter Property="Padding" Value="12,6"/>
+    <Setter Property="Margin" Value="2"/>
+    <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TabItem">
+          <Border x:Name="Bd" Background="#FFF0F6FF" CornerRadius="8" Padding="{TemplateBinding Padding}">
+            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+              <Setter TargetName="Bd" Property="Background" Value="{StaticResource PrimaryBrush}"/>
+              <!-- Foreground sur le TabItem -->
+              <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Bd" Property="Opacity" Value="0.95"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- TabControl -->
+  <Style TargetType="TabControl">
+    <Setter Property="Margin" Value="0"/>
+  </Style>
+
+  <!-- Window defaults -->
+  <Style TargetType="Window">
+    <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+  </Style>
+
+</ResourceDictionary>

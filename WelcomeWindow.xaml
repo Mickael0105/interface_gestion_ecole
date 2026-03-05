@@ -1,0 +1,54 @@
+<Window x:Class="MyApp.Interface.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Bienvenue" Height="300" Width="500" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize">
+    
+    <Border CornerRadius="20" Background="#FF0F172A" Padding="30">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="30" ShadowDepth="10" Color="Black" Opacity="0.5"/>
+        </Border.Effect>
+
+        <Grid>
+            <!-- Background Gradient -->
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="0.1">
+                    <GradientStop Color="#2563EB" Offset="0"/>
+                    <GradientStop Color="#9333EA" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!-- Welcome Text -->
+                <TextBlock x:Name="txtWelcome" Text="Bienvenue" Foreground="White" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" Opacity="0" FontFamily="Poppins">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
+                                    <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,20,0,0" To="0,0,0,20" Duration="0:0:1" DecelerationRatio="0.9"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+
+                <TextBlock x:Name="txtRole" Text="..." Foreground="#94A3B8" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,30" Opacity="0">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="0:0:0.5">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+
+                <!-- Loading Spinner -->
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4" Foreground="#3B82F6" Background="#1E293B" BorderThickness="0"/>
+                <TextBlock Text="Chargement de l'interface..." Foreground="#64748B" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
